@@ -1,0 +1,12 @@
+services:
+    db:
+        image: postgres:16-alpine
+        container_name: coink_postgres
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: admin123
+            POSTGRES_DB: coink_db
+        ports:
+            - "5433:5432"
+        volumes:
+            - ./Database/Scripts:/docker-entrypoint-initdb.d

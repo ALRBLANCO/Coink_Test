@@ -2,7 +2,5 @@
   "fullName": "Alfredo Coink Test",
   "phone": "3105551234",
   "address": "Carrera 7 # 100-20",
-  "countryId": 1,
-  "stateId": 2,
   "cityId": 4
 }

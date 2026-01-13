@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using UserRegistrationApi.src.Services;
+using UserRegistrationApi.Services;
 
-namespace UserRegistrationApi.src.Controllers;
+namespace UserRegistrationApi.Controllers;
 
+//versionado estatico por simplicidad
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 public class LocationsController(IMasterService masterService) : ControllerBase
 {
     [HttpGet("countries")]

@@ -1,7 +1,7 @@
-namespace UserRegistrationApi.src.Services;
+namespace UserRegistrationApi.Services;
 
-using UserRegistrationApi.src.Data;
-using UserRegistrationApi.src.Models;
+using UserRegistrationApi.Data;
+using UserRegistrationApi.Models;
 
 public class MasterService(IMasterRepository repository) : IMasterService
 {

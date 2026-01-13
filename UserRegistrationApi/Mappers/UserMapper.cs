@@ -1,11 +1,11 @@
-using UserRegistrationApi.src.Domain.Entities;
-using UserRegistrationApi.src.Models;
+using UserRegistrationApi.Domain.Entities;
+using UserRegistrationApi.Models;
 
-namespace UserRegistrationApi.src.Mappers;
+namespace UserRegistrationApi.Mappers;
 
-public static class UserDtoMapper
+public static class UserMapper
 {
-    public static User ToDomain(this UserDto dto)
+    public static User ToEntity(UserDto dto)
     {
         return new User(
             dto.FullName,
@@ -15,7 +15,7 @@ public static class UserDtoMapper
         );
     }
 
-    public static UserDto ToDto(this User entity)
+    public static UserDto ToDto(User entity)
     {
         return new UserDto(
             entity.FullName,

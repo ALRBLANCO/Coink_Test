@@ -1,15 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
-using UserRegistrationApi.src.Models;
-using UserRegistrationApi.src.Services;
+using UserRegistrationApi.Models;
+using UserRegistrationApi.Services;
 
-namespace UserRegistrationApi.src.Controllers;
+namespace UserRegistrationApi.Controllers;
 
+//versionado estatico por simplicidad
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 public class UsersController(IUserService userService, IValidator<UserDto> validator, ILogger<UsersController> logger) : ControllerBase
 {
-    [HttpPost]
+
+    // El dto no trae idState, ni idCountry ya que he pensado en la integridad referencial
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserDto request)
     {
         // 1. Log de inicio de petición

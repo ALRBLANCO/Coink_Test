@@ -1,8 +1,8 @@
 using FluentValidation;
-using UserRegistrationApi.src.Data;
-using UserRegistrationApi.src.Services;
-using UserRegistrationApi.src.Validators;
-using UserRegistrationApi.src.Middleware;
+using UserRegistrationApi.Data;
+using UserRegistrationApi.Services;
+using UserRegistrationApi.Validators;
+using UserRegistrationApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,14 +24,15 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+// Habilito a Swagger para todo entorno, para efectos de la prueba tecnica
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI(c => {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Coink API V1");
         c.RoutePrefix = string.Empty; // Swagger at root
     });
-}
+//}
 
 app.MapControllers();
 app.Run();

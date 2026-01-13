@@ -1,4 +1,4 @@
-namespace UserRegistrationApi.src.Domain.Entities;
+namespace UserRegistrationApi.Domain.Entities;
 
 public class User
 {

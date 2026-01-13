@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text.Json;
 
-namespace UserRegistrationApi.src.Middleware;
+namespace UserRegistrationApi.Middleware;
 
 public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
 {

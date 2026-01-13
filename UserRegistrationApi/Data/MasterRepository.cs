@@ -1,9 +1,9 @@
 using Dapper;
 using Npgsql;
 using System.Data;
-using UserRegistrationApi.src.Models;
+using UserRegistrationApi.Models;
 
-namespace UserRegistrationApi.src.Data;
+namespace UserRegistrationApi.Data;
 
 public class MasterRepository(IConfiguration configuration) : IMasterRepository
 {

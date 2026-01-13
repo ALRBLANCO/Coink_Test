@@ -1,4 +1,4 @@
-namespace UserRegistrationApi.src.Models;
+namespace UserRegistrationApi.Models;
 
 // Agregamos un constructor vacío o usamos propiedades con { get; init; }
 public record CountryDto(int Id, string Name);

@@ -1,7 +1,8 @@
 using Moq;
-using UserRegistrationApi.src.Data;
-using UserRegistrationApi.src.Models;
-using UserRegistrationApi.src.Services;
+using UserRegistrationApi.Data;
+using UserRegistrationApi.Models;
+using UserRegistrationApi.Domain.Entities;
+using UserRegistrationApi.Services;
 using Xunit;
 
 namespace UserRegistrationApi.Tests;
@@ -33,7 +34,7 @@ public class UserServiceTests
             _userService.RegisterUserAsync(userDto));
         
         // Verificamos que NUNCA se llamó al repositorio de usuarios
-        _userRepoMock.Verify(r => r.RegisterUserAsync(It.IsAny<UserDto>()), Times.Never);
+        _userRepoMock.Verify(r => r.RegisterUserAsync(It.IsAny<User>()), Times.Never);
     }
 
     [Fact]
@@ -49,6 +50,9 @@ public class UserServiceTests
         await _userService.RegisterUserAsync(userDto);
 
         // Assert: Verificamos que se llamó al repositorio de registro exactamente una vez
-        _userRepoMock.Verify(r => r.RegisterUserAsync(userDto), Times.Once);
+        _userRepoMock.Verify(r => r.RegisterUserAsync(It.Is<User>(u => 
+                u.FullName == "Test User" && 
+                u.Phone == "3101234567")
+            ), Times.Once);
     }
 }

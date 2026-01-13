@@ -1,7 +1,7 @@
 using FluentValidation;
-using UserRegistrationApi.src.Models;
+using UserRegistrationApi.Models;
 
-namespace UserRegistrationApi.src.Validators;
+namespace UserRegistrationApi.Validators;
 
 public class UserValidator : AbstractValidator<UserDto>
 {

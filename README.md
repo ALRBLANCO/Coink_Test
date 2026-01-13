@@ -1,71 +1,46 @@
-Coink - User Registration API (.NET 9)
-Este proyecto es una API REST diseñada para el registro de usuarios, cumpliendo con los requerimientos técnicos de validación de datos, persistencia en PostgreSQL mediante procedimientos almacenados y contenedores Docker.
+# Coink - Prueba Técnica: Registro de Usuarios (Senior Backend):
 
-Arquitectura y Tecnologías
-Framework: .NET 9 (C# 12+)
+Este repositorio contiene la solución técnica desarrollada para el proceso de selección de Coink. Se presenta una implementación de API REST construida con .NET 9 y PostgreSQL, diseñada bajo estándares de alta cohesión y principios de ingeniería de software.
 
-Nota:
-## Consideraciones de Arquitectura
+## Evaluación técnica:
 
-Para efectos de esta prueba técnica, he tomado las siguientes decisiones de diseño:
+La evaluación de los requerimientos técnicos requeridos para un postulante se dividirá en 2 secciones, una primera evaluará el conocimiento en Bases de datos, específicamente en diseño y desarrollo en lenguaje SQL. La segunda será el desarrollo en C#, aplicación de patrones de desarrollo y buenas prácticas de desarrollo de software.
 
-* ** Omití la creación de una capa de Entidades de Dominio y Mapeadores (Mappers) manuales por simplicidad y agilidad. El flujo de datos se maneja directamente a través de DTOs (Data Transfer Objects).
-* ** Sin embargo, deje por ahi libre los archivos de clases User.cs y UserDtoMapper.cs.
-* ** El desarrollo lo enfoqué primordialmente en:
-* ** Integridad Referencial:** Validación estricta de la jerarquía País -> Departamento -> Ciudad antes de cualquier registro.
-* ** Pruebas Unitarias e Integración:** Implementación de tests con Mocks y pruebas de integración que validan el comportamiento real de los Stored Procedures.
-* ** Robustez:** Implementación de un Middleware global de excepciones para garantizar respuestas estandarizadas y evitar errores 500 no controlados.
+**1. Bases de datos:**
+* a. Construir un esquema de base de datos que permita registrar el nombre, teléfono y dirección de un usuario.
+* b. Construir tablas paramétricas para país, departamento y municipio.
+* c. Usar bases de datos relacionales.
 
-Acceso a Datos: Dapper (Micro-ORM) para alto rendimiento.
+**2. Desarrollo C#.**
+* a. Deberá crear un Api de servicios que deberá exponer:
+    * i. Servicio que permita registrar Nombre, teléfono, País, Departamento, municipio y Dirección.
+* b. Los servicios expuestos deberán validar que el dato que se ingrese como parámetro sea válido.
+* c. Las consultas en base de datos deberán implementarse a través de consumo de Stored Procedures.
+* d. Será apreciado el uso de patrones de diseño.
 
-Base de Datos: PostgreSQL 16 con Stored Procedures.
+**Al final se espera repositorio preferiblemente en GitHub:**
+* La solución C#.
+* Scripts requeridos para la creación de la base de datos y sus respectivas tablas.
+* Los scripts requeridos para la creación de los stored procedures.
+* De preferencia usar PostgreSQL.
 
-Validación: FluentValidation para reglas de negocio (Teléfono numérico, campos obligatorios).
+---
 
-Contenedores: Docker Compose para orquestación de BD.
+## 🏗️ Decisiones de Ingeniería y Arquitectura
 
-Pruebas: xUnit para Validaciones de negocio.
+En el desarrollo de esta solución, he aplicado criterios que buscan demostrar profundidad técnica y dominio de patrones, excediendo intencionalmente los requerimientos base sin comprometer la claridad:
 
-Instalación y Configuración
-1. Levantar la Base de Datos
-Desde la raíz Coink_Test/, ejecuta el siguiente comando para levantar el contenedor de PostgreSQL.
+* **Arquitectura y Patrones:** He decidido implementar una estructura basada en capas, utilizando el **Repository Pattern** para la abstracción de datos y una capa de **Servicios** para la orquestación. Se podrá notar el uso de **Domain Entities** y **Mappers** manuales; tomé esta decisión para evitar el acoplamiento entre los contratos externos (DTOs) y la lógica interna, manteniendo un control total del flujo de datos sin depender de librerías de mapeo automático para efectos de esta prueba.
+* **Integridad y Lógica en DB:** He delegado la validación de integridad referencial geográfica (País -> Departamento -> Ciudad) directamente a los **Stored Procedures**, asegurando que el motor de base de datos garantice la consistencia. Complementé esto con **FluentValidation** en C# para validaciones de formato de entrada.
+* **Dockerización y Healthchecks:** Para asegurar que la solución sea "Plug & Play", configuré el entorno con **Docker Compose**. Implementé *healthchecks* para que la API espere a que la base de datos esté totalmente lista y los scripts SQL ejecutados antes de iniciar, garantizando que la primera petición no falle por latencia de red interna.
+* **Simplicidad y UX del Evaluador:** He tomado decisiones como el **versionamiento estático** (`api/v1`) y dejar las **credenciales en el appsettings.json**. Soy consciente de que en entornos productivos se deben usar Secrets o Variables de Entorno, pero decidí mantenerlas aquí para facilitar la ejecución rapida del test por el evaluador. Asimismo, dejé **Swagger habilitado en producción** dentro del contenedor para que el evaluador pueda probar los endpoints sin herramientas externas.
+* **Valor Agregado:** Aunque no estaban contemplados en el requerimiento originales, he incluido **Pruebas Unitarias** con xUnit/Moq, un **Middleware Global de Excepciones** y principios **SOLID**, buscando reflejar el rigor técnico que aplico en proyectos de escala empresarial.
 
-Nota: Se ha configurado el puerto 5433 para evitar conflictos con instalaciones locales de Postgres.
+---
 
-Bash
+## 🚀 Instrucciones de Ejecución
 
-docker-compose up -d
-2. Ejecutar la API
-Debe Navegar a la carpeta del proyecto y lanza la aplicación:
-
-Bash
-
-cd UserRegistrationApi
-dotnet run
-La API estará disponible en: http://localhost:5233 (Swagger se cargará automáticamente en la raíz).
-
-Pruebas Automatizadas
-Para ejecutar los tests unitarios de validación de datos:
-
-Bash
-
-dotnet test
-📁 Estructura del Proyecto
-Plaintext
-
-UserRegistrationApi/
-├── Program.cs                 # Configuración de servicios y middleware
-├── appsettings.json           # Cadena de conexión (Puerto 5433)
-├── src/
-│   ├── Controllers/           # Endpoints de la API
-│   ├── Data/                  # Repositorios e interfaces (Dapper)
-│   ├── Models/                # DTOs de entrada
-│   └── Validators/            # Reglas de FluentValidation (Requerimiento 2.b)
-└── tests/
-    └── UserRegistrationApi.Tests/  # Pruebas xUnit
-Notas de Implementación
-Sue expresión regular para el campo Phone que asegura un formato numérico internacional y longitud válida.
-
-Manejo de Errores: La API captura errores específicos de integridad referencial (CityId inexistente) y errores de autenticación de BD, devolviendo códigos HTTP adecuados.
-
-usé Docker para asegurar que los scripts SQL en Database/Scripts/ inicialicen la base de datos automáticamente al primer arranque.
+### Opción 1: Docker:
+Desde la raíz del proyecto, ejecute:
+```bash
+docker-compose up --build

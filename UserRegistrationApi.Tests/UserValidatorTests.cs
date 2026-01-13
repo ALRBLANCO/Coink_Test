@@ -1,6 +1,6 @@
 ﻿// using Xunit;
-using UserRegistrationApi.src.Models;
-using UserRegistrationApi.src.Validators;
+using UserRegistrationApi.Models;
+using UserRegistrationApi.Validators;
 using FluentValidation.TestHelper;
 
 namespace UserRegistrationApi.Tests;

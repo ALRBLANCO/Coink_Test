@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\UserRegistrationApi.csproj" />
+    <ProjectReference Include="..\UserRegistrationApi\UserRegistrationApi.csproj" />
   </ItemGroup>
 
 </Project>

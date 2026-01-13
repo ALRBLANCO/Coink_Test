@@ -1,16 +1,16 @@
 using Dapper;
 using Npgsql;
 using System.Data;
-using UserRegistrationApi.src.Models;
+using UserRegistrationApi.Domain.Entities;
 
-namespace UserRegistrationApi.src.Data;
+namespace UserRegistrationApi.Data;
 
 public class UserRepository(IConfiguration configuration) : IUserRepository
 {
     private readonly string _connectionString = configuration.GetConnectionString("DefaultConnection") 
         ?? throw new ArgumentNullException("Connection string is missing");
 
-    public async Task RegisterUserAsync(UserDto user)
+    public async Task RegisterUserAsync(User user)
     {
         try
         {
@@ -28,11 +28,11 @@ public class UserRepository(IConfiguration configuration) : IUserRepository
         }
         catch (PostgresException ex) when (ex.SqlState == "28P01")
         {
-            throw new Exception("Error de autenticación: La contraseña en appsettings.json no coincide con la de Docker.");
+            throw new Exception("Autentication error: The password in appsettings.json is not the same that Docker.");
         }
         catch (PostgresException ex) when (ex.SqlState == "23503")
         {
-            throw new Exception("Error de integridad: El CityId proporcionado no existe en la base de datos.");
+            throw new Exception("Integrity error: The CityId suplied don't exist into the database.");
         }
         
     }

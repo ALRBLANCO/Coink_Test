@@ -1,6 +1,6 @@
-using UserRegistrationApi.src.Models;
+using UserRegistrationApi.Models;
 
-namespace UserRegistrationApi.src.Data;
+namespace UserRegistrationApi.Data;
 
 public interface IMasterRepository
 {

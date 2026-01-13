@@ -1,6 +1,6 @@
-namespace UserRegistrationApi.src.Services;
+namespace UserRegistrationApi.Services;
 
-using UserRegistrationApi.src.Models;
+using UserRegistrationApi.Models;
 
 public interface IMasterService 
 {

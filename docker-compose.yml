@@ -10,3 +10,22 @@ services:
             - "5433:5432"
         volumes:
             - ./Database/Scripts:/docker-entrypoint-initdb.d
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres -d coink_db"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+    
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: coink_api
+        ports:
+            - "5000:8080" # Acceder por http://localhost:5000
+        depends_on:
+            db:
+                condition: service_healthy
+        environment:
+            - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=coink_db;Username=postgres;Password=admin123;
+            - ASPNETCORE_URLS=http://+:8080
